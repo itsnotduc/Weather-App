@@ -48,7 +48,7 @@ const Weather = () => {
             setWeatherData({
                 humidity: data.main.humidity,
                 windSpeed: data.wind.speed,
-                temperature: Math.floor(data.main.temp),
+                temperature: Math.round(data.main.temp),
                 location: data.name,
                 icon: icon
             });
