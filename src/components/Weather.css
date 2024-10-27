@@ -1,11 +1,14 @@
 .weather{
     place-self: center;
-    padding: 40px;
+    padding: 60px;
     border-radius: 40px;
-    background-image: linear-gradient(45deg, #2f4680, #500ae4);
+    background: linear-gradient(135deg, #3a1c71, #d76d77, #b67f5b);
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 1500px;
+    height: 800px;
+    max-width: 90%;
 }
 .search-bar{
     display: flex;
@@ -63,4 +66,71 @@
 .weather-data .col img{
     width: 26px;
     margin-top: 21;
+}
+
+.suggestions-dropdown {
+    position: absolute;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10;
+    width: calc(100% - 12px);
+    top: calc(100% + 10px);
+}
+
+
+.suggestions-dropdown li {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    cursor: pointer;
+    white-space: nowrap;         /* Prevents text from wrapping */
+    overflow: hidden;            /* Ensures text overflow is handled */
+    text-overflow: ellipsis;     /* Adds ellipsis for long text */
+    max-width: 100%;             /* Limits the maximum width */
+}
+
+
+.suggestions-dropdown li .country-flag {
+    margin-left: auto;
+    object-fit: scale-down;
+    display: inline-block;
+    resize: both;
+}
+
+
+
+
+
+
+
+/* Weather.css */
+
+@keyframes rain {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes snow {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+}
+
+@keyframes clear {
+    0% { opacity: 0.8; }
+    100% { opacity: 1; }
+}
+
+.animate-rain {
+    animation: rain 1s ease-in-out forwards;
+}
+
+.animate-snow {
+    animation: snow 2s ease-in-out forwards;
+}
+
+.animate-clear {
+    animation: clear 1s ease-in-out forwards;
 }
