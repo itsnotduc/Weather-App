@@ -4,7 +4,7 @@ import './Clouds.css';
 const Clouds = () => {
     const createClouds = () => {
         const clouds = [];
-        const cloudCount = 6;
+        const cloudCount = 20;
 
         for (let i = 0; i < cloudCount; i++) {
             clouds.push(

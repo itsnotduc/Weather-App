@@ -1,76 +1,65 @@
-<<<<<<< HEAD
-.weather {
-    position: relative; /* Make the .weather container relative to position children correctly */
-    place-self: center;
-    padding: 40px;
-    border-radius: 40px;
-    background-image: linear-gradient(45deg, #2f4680, #500ae4);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 1700px;
-    height: 800px;
-    z-index: 1; /* Set z-index to layer above rain */
-}
-.search-bar{
-    display: flex;
-    align-items: center;
-    gap: 30px;
-}
-.search-bar input{
-=======
 /* Main weather container */
 .weather {
-    place-self: center;
-    padding: 60px;
-    border-radius: 40px;
-    background: linear-gradient(135deg, #3a1c71, #d76d77, #b67f5b);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 1500px;
-    height: 800px;
-    max-width: 90%;
-    max-height: 90%;
-    position: relative;
-    overflow: hidden;
-}
-
-.weather {
-    width: 100%;
-    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    transition: background 0.5s ease; /* Smooth transition */
+    place-self: center;
+    padding: 60px;
+    border-radius: 40px;
+    width: 100%;
+    height: 100vh;
+    max-width: 90%;
+    max-height: 90%;
+    position: relative;
+    overflow: hidden;
+    transition: background-image 2s ease-in-out; /* Smooth transition for state changes */
+    background-size: 200% 200%; /* Needed for gradient movement */
+    animation: gradient-move 20s ease infinite; /* Persistent gradient movement */
 }
 
-/* Morning gradient */
+/* Default gradient state */
+.weather {
+    background-image: linear-gradient(135deg, #d3d3d3, #6c7a94); /* Default light gray to muted blue */
+}
+
+/* Morning state with gradient movement */
 .weather.morning {
-    background: linear-gradient(to bottom, #FFD700 0%, #FFB74D 100%); /* Gold to light orange */
+    background-image: linear-gradient(135deg, rgba(255, 166, 1, 0.8), rgba(135, 42, 241, 0.8));
 }
 
-/* Afternoon gradient */
+/* Afternoon state with gradient movement */
 .weather.afternoon {
-    background: linear-gradient(to bottom, #87CEEB 0%, #00BFFF 100%); /* Light blue to deeper blue */
+    background-image: linear-gradient(135deg, rgba(0, 67, 212, 0.8), rgba(64, 206, 224, 0.8));
 }
 
-/* Evening gradient */
+/* Evening state with gradient movement */
 .weather.evening {
-    background: linear-gradient(to bottom, #FF6347 0%, #FF8C00 100%); /* Tomato red to orange */
+    background-image: linear-gradient(135deg, rgba(240, 91, 32, 0.8), rgba(72, 148, 224, 0.8));
 }
 
-/* Night gradient */
+/* Night state with gradient movement */
 .weather.night {
-    background: linear-gradient(to bottom, #2C3E50 0%, #34495E 100%); /* Dark navy blue to charcoal */
+    background-image: linear-gradient(135deg, rgba(25, 25, 112, 0.8), rgba(0, 0, 0, 0.8));
 }
 
+/* Gradient movement animation */
+@keyframes gradient-move {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
 
-/* New container wrapping search bar and dropdown */
+/* Search container styles */
 .search-container {
     position: relative;
-    z-index: 1000000; /* Very high z-index to bring it to the front */
+    z-index: 1000; /* High z-index to bring it to the front */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -85,61 +74,39 @@
 }
 
 .search-bar input {
->>>>>>> gh-pages
     height: 50px;
     border: none;
     outline: none;
     border-radius: 40px;
     padding-left: 25px;
-<<<<<<< HEAD
-    color:#626262;
-    background: #ebfffc;
-    font-size: 18px;
-    width: 700px;
-}
-.search-bar img{
-=======
     color: #626262;
     background: #ebfffc;
     font-size: 18px;
+    margin-top: -170px; /* Move input higher */
 }
 
 .search-bar img {
->>>>>>> gh-pages
-    width: 50px;
+    width: 40px;
     padding: 15px;
     border-radius: 50%;
     background: #ebfffc;
     cursor: pointer;
+    margin-top: -170px; /* Move image higher */
 }
-<<<<<<< HEAD
-.weather-icon{
-    width: 150px;
-    margin: 30px 0;
-}
-.temperature{
-=======
 
+/* Weather icon and text styles */
 .weather-icon {
     width: 150px;
     margin: 30px 0;
     z-index: 1;
-    position: relative;
+    margin-top: 150px;
 }
 
 .temperature {
->>>>>>> gh-pages
     color: #fff;
     font-size: 80px;
     line-height: 1;
 }
-<<<<<<< HEAD
-.location{
-    color: #fff;
-    font-size: 40px;
-}
-.weather-data{
-=======
 
 .location {
     color: #fff;
@@ -148,131 +115,30 @@
 
 /* Weather data layout */
 .weather-data {
->>>>>>> gh-pages
     width: 100%;
     margin-top: 40px;
     color: #fff;
     display: flex;
     justify-content: space-between;
-<<<<<<< HEAD
-}
-.weather-data .col{
-=======
     z-index: 1;
 }
 
 .weather-data .col {
->>>>>>> gh-pages
     display: flex;
     align-items: flex-start;
     gap: 12px;
     font-size: 22px;
 }
 
-<<<<<<< HEAD
-.weather-data .col span{
-    display: block;
-    font-size: 16px;
-}
-.weather-data .col img{
-=======
 .weather-data .col span {
-    display: block;
     font-size: 16px;
 }
 
 .weather-data .col img {
->>>>>>> gh-pages
     width: 26px;
-    margin-top: 21;
+    margin-top: 21px; /* Fixed to add 'px' */
 }
 
-<<<<<<< HEAD
-*,
-*:before,
-*:after {
-    box-sizing: border-box;
-}
-
-body {
-    background-color: #6c78a9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.rain {
-    position: absolute; /* Changed to absolute to position it relative to the .weather container */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    pointer-events: none; /* Prevent mouse events from interfering */
-    z-index: 0; /* Set z-index to layer below content */
-}
-
-
-.rain__drop {
-    animation-delay: calc(var(--d) * 1s);
-    animation-duration: calc(var(--a) * 1s);
-    animation-iteration-count: infinite;
-    animation-name: drop;
-    animation-timing-function: linear;
-    height: 30px;
-    left: calc(var(--x) * 1%);
-    position: absolute;
-    top: calc((var(--y) + 50) * -1px);
-}
-
-.rain__drop path {
-    fill: #a1c6cc;
-    opacity: var(--o);
-    transform: scaleY(calc(var(--s) * 1.5));
-}
-
-@keyframes drop {
-    90% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(100vh);
-    }
-}
-
-.suggestions-list {
-    position: absolute; /* Position relative to the parent (search-bar) */
-    z-index: 10; /* Ensure it appears above other elements */
-    border: 1px solid #ccc; /* Light border around the dropdown */
-    border-radius: 10px; /* Rounded corners */
-    max-height: 200px; /* Limit the height of the dropdown */
-    overflow-y: auto; /* Scroll if there are too many suggestions */
-    width: 100%; /* Match the input width */
-    background-color: #fff; /* White background */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    margin-top: 100px; /* Move dropdown down */
-    width: 700px;
-
-}
-
-/* Suggestion Item Styles */
-.suggestion-item {
-    padding: 10px; /* Padding inside each suggestion */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.2s ease; /* Smooth background transition */
-}
-
-/* Hover Effect for Suggestions */
-.suggestion-item:hover {
-    background-color: #f0f0f0; /* Light grey background on hover */
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-    .suggestions-list {
-        max-height: 150px; /* Smaller height for mobile */
-=======
 /* Suggestions dropdown styles */
 .suggestions-dropdown {
     position: absolute; /* Positioned relative to .search-container */
@@ -281,9 +147,9 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     max-height: 200px;
     overflow-y: auto;
-    z-index: 1000001; /* Higher than .search-container */
+    z-index: 1001; /* Higher than .search-container */
     width: 100%;
-    top: calc(100% + 10px);
+    top: calc(100% - 55px);
 }
 
 .suggestions-dropdown li {
@@ -306,18 +172,6 @@ body {
     margin-left: auto;
     object-fit: scale-down;
     display: inline-block;
-    resize: both;
 }
 
-/* Raindrop fall animation */
-@keyframes fall {
-    0% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(100vh);
-        opacity: 0;
->>>>>>> gh-pages
-    }
-}
+

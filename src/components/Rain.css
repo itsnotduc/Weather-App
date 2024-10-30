@@ -5,7 +5,7 @@
     right: 0;
     bottom: 0;
     overflow: hidden;
-    pointer-events: none; /* Make sure rain does not capture pointer events */
+    pointer-events: none; /* Prevent pointer events */
 }
 
 .rain__drop {
@@ -13,8 +13,23 @@
     width: 2px; /* Width of raindrop */
     height: 20px; /* Height of raindrop */
     background: rgba(255, 255, 255, 0.8); /* Color of raindrop */
-    opacity: 0.7; /* Opacity of raindrop */
     animation-name: fall; /* Name of animation */
-    animation-timing-function: linear; /* Animation timing */
+    animation-timing-function: linear; /* Linear timing for continuous fall */
     animation-iteration-count: infinite; /* Loop forever */
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0);
+        opacity: 1; /* Fully visible at start */
+    }
+    100% {
+        transform: translateY(100vh); /* Fall off the screen */
+        opacity: 0; /* Fade out as it falls */
+    }
+}
+
+/* Apply the raindrop animation to the elements as needed */
+.raindrop {
+    animation: fall 0.5s linear infinite; /* Speeding up the fall animation */
 }

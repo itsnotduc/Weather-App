@@ -49,8 +49,7 @@
 /* Define the cloud movement animation */
 @keyframes moveClouds {
     0% {
-        transform: translateX(-100vw); /* Start off-screen to the left */
-    }
+        transform: translateX(-98vw); /* Start from outside the left side */    }
     100% {
         transform: translateX(100vw); /* End off-screen to the right */
     }
