@@ -1,0 +1,20 @@
+.rain {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    pointer-events: none; /* Make sure rain does not capture pointer events */
+}
+
+.rain__drop {
+    position: absolute;
+    width: 2px; /* Width of raindrop */
+    height: 20px; /* Height of raindrop */
+    background: rgba(255, 255, 255, 0.8); /* Color of raindrop */
+    opacity: 0.7; /* Opacity of raindrop */
+    animation-name: fall; /* Name of animation */
+    animation-timing-function: linear; /* Animation timing */
+    animation-iteration-count: infinite; /* Loop forever */
+}

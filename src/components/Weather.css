@@ -1,4 +1,5 @@
-.weather{
+/* Main weather container */
+.weather {
     place-self: center;
     padding: 60px;
     border-radius: 40px;
@@ -9,89 +10,151 @@
     width: 1500px;
     height: 800px;
     max-width: 90%;
+    max-height: 90%;
+    position: relative;
+    overflow: hidden;
 }
-.search-bar{
+
+.weather {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.5s ease; /* Smooth transition */
+}
+
+/* Morning gradient */
+.weather.morning {
+    background: linear-gradient(to bottom, #FFD700 0%, #FFB74D 100%); /* Gold to light orange */
+}
+
+/* Afternoon gradient */
+.weather.afternoon {
+    background: linear-gradient(to bottom, #87CEEB 0%, #00BFFF 100%); /* Light blue to deeper blue */
+}
+
+/* Evening gradient */
+.weather.evening {
+    background: linear-gradient(to bottom, #FF6347 0%, #FF8C00 100%); /* Tomato red to orange */
+}
+
+/* Night gradient */
+.weather.night {
+    background: linear-gradient(to bottom, #2C3E50 0%, #34495E 100%); /* Dark navy blue to charcoal */
+}
+
+
+/* New container wrapping search bar and dropdown */
+.search-container {
+    position: relative;
+    z-index: 1000000; /* Very high z-index to bring it to the front */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Search bar styles */
+.search-bar {
     display: flex;
     align-items: center;
     gap: 12px;
+    z-index: 1; /* Ensure the search input and icon are above everything */
 }
-.search-bar input{
+
+.search-bar input {
     height: 50px;
     border: none;
     outline: none;
     border-radius: 40px;
     padding-left: 25px;
-    color:#626262;
+    color: #626262;
     background: #ebfffc;
     font-size: 18px;
 }
-.search-bar img{
+
+.search-bar img {
     width: 50px;
     padding: 15px;
     border-radius: 50%;
     background: #ebfffc;
     cursor: pointer;
 }
-.weather-icon{
+
+.weather-icon {
     width: 150px;
     margin: 30px 0;
+    z-index: 1;
+    position: relative;
 }
-.temperature{
+
+.temperature {
     color: #fff;
     font-size: 80px;
     line-height: 1;
 }
-.location{
+
+.location {
     color: #fff;
     font-size: 40px;
 }
-.weather-data{
+
+/* Weather data layout */
+.weather-data {
     width: 100%;
     margin-top: 40px;
     color: #fff;
     display: flex;
     justify-content: space-between;
+    z-index: 1;
 }
-.weather-data .col{
+
+.weather-data .col {
     display: flex;
     align-items: flex-start;
     gap: 12px;
     font-size: 22px;
 }
 
-.weather-data .col span{
+.weather-data .col span {
     display: block;
     font-size: 16px;
 }
-.weather-data .col img{
+
+.weather-data .col img {
     width: 26px;
     margin-top: 21;
 }
 
+/* Suggestions dropdown styles */
 .suggestions-dropdown {
-    position: absolute;
+    position: absolute; /* Positioned relative to .search-container */
     background: #fff;
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     max-height: 200px;
     overflow-y: auto;
-    z-index: 10;
-    width: calc(100% - 12px);
+    z-index: 1000001; /* Higher than .search-container */
+    width: 100%;
     top: calc(100% + 10px);
 }
-
 
 .suggestions-dropdown li {
     display: flex;
     align-items: center;
     padding: 10px 15px;
     cursor: pointer;
-    white-space: nowrap;         /* Prevents text from wrapping */
-    overflow: hidden;            /* Ensures text overflow is handled */
-    text-overflow: ellipsis;     /* Adds ellipsis for long text */
-    max-width: 100%;             /* Limits the maximum width */
+    white-space: nowrap; /* Prevents text from wrapping */
+    overflow: hidden; /* Ensures text overflow is handled */
+    text-overflow: ellipsis; /* Adds ellipsis for long text */
+    max-width: 100%; /* Limits the maximum width */
+    transition: background 0.2s; /* Smooth transition for hover effect */
 }
 
+.suggestions-dropdown li:hover {
+    background: #f0f0f0; /* Light background on hover */
+}
 
 .suggestions-dropdown li .country-flag {
     margin-left: auto;
@@ -100,37 +163,14 @@
     resize: both;
 }
 
-
-
-
-
-
-
-/* Weather.css */
-
-@keyframes rain {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-}
-
-@keyframes snow {
-    0% { transform: translateY(-100%); }
-    100% { transform: translateY(100%); }
-}
-
-@keyframes clear {
-    0% { opacity: 0.8; }
-    100% { opacity: 1; }
-}
-
-.animate-rain {
-    animation: rain 1s ease-in-out forwards;
-}
-
-.animate-snow {
-    animation: snow 2s ease-in-out forwards;
-}
-
-.animate-clear {
-    animation: clear 1s ease-in-out forwards;
+/* Raindrop fall animation */
+@keyframes fall {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
 }
