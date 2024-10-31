@@ -15,7 +15,7 @@
     background: rgba(255, 255, 255, 0.8);
     border-radius: 50px;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-    animation: moveClouds 200s linear infinite; /* Increased to 120s for slower movement */
+    animation: moveClouds 100s linear infinite;
 }
 
 .cloud::before,
@@ -39,18 +39,12 @@
     top: -30px;
     right: 10px;
 }
-.clouds.hidden {
-    display: none; /* or opacity: 0; visibility: hidden; */
-}
 
-.clouds.visible {
-    display: flex; /* Ensures visibility when clouds are needed */
-}
-/* Define the cloud movement animation */
 @keyframes moveClouds {
     0% {
-        transform: translateX(-98vw); /* Start from outside the left side */    }
+        transform: translateX(-100vw);
+    }
     100% {
-        transform: translateX(100vw); /* End off-screen to the right */
+        transform: translateX(100vw);
     }
 }

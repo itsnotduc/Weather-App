@@ -15,6 +15,7 @@ import humidity_icon from '../assets/humidity.png';
 import snow_icon from '../assets/snow.png';
 import wind_icon from '../assets/wind.png';
 import placeholder_flag from '../assets/placeholder.png';
+import heartIcon from '../assets/heart.png';
 
 const Weather = () => {
     const allIcons = {
@@ -40,37 +41,92 @@ const Weather = () => {
         temperature: "-- ",
         location: "Location not found",
         icon: day_clear_icon,
-        timezoneOffset: 0
+        timezoneOffset: 0,
     });
-    const [background, setBackground] = useState('morning');
+
+    const [backgroundClass, setBackgroundClass] = useState('default-background');
+    const [nextBackgroundClass, setNextBackgroundClass] = useState(null);
+    const [opacity, setOpacity] = useState(1);
     const [query, setQuery] = useState('');
     const [suggestions, setSuggestions] = useState([]);
     const [isRaining, setIsRaining] = useState(false);
     const [isCloudy, setIsCloudy] = useState(false);
     const inputRef = useRef();
     const debounceTimeout = useRef(null);
-    const dropdownRef = useRef(); 
+    const dropdownRef = useRef();
+    const [isHeartRain, setIsHeartRain] = useState(false); // Initialize state
+
+    const fetchWeatherData = async (city) => {
+        if (!city) return;
+        if (['vy huong', 'pham thai vy huong', 'be mi'].includes(city.toLowerCase())) {
+            setWeatherData({
+                location: 'I Love You!!!',
+                icon: heartIcon,
+                temperature: 1000000,
+            });
+            setIsRaining(true);
+            setIsHeartRain(true); // Set heart rain            setIsCloudy(false);
+            setNextBackgroundClass('love');
+            setIsCloudy(true);
+            return;
+        }
+        try {
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${import.meta.env.VITE_APP_ID}`;
+            const response = await fetch(url);
+            const data = await response.json();
+            const icon = allIcons[data.weather[0].icon] || day_clear_icon;
+            setWeatherData({
+                humidity: data.main.humidity,
+                windSpeed: data.wind.speed,
+                temperature: Math.round(data.main.temp),
+                location: data.name,
+                icon: icon,
+                timezoneOffset: data.timezone,
+            });
+            const weatherMain = data.weather[0].main.toLowerCase();
+            setIsRaining(weatherMain === 'rain' || weatherMain === 'drizzle');
+            setIsHeartRain(false); // Disable heart rain for regular rain
+            setIsCloudy(weatherMain === 'clouds');
+            setSuggestions([]);
+        } catch (error) {
+            console.error("Error fetching weather data:", error);
+        }
+    };
+
 
     useEffect(() => {
         const updateBackground = () => {
-            const utcHour = new Date().getUTCHours();
-            const localHour = (utcHour + weatherData.timezoneOffset / 3600) % 24;
-
-            if (localHour >= 6 && localHour < 12) {
-                setBackground('morning');
-            } else if (localHour >= 12 && localHour < 18) {
-                setBackground('afternoon');
-            } else if (localHour >= 18 && localHour < 20) {
-                setBackground('evening');
-            } else {
-                setBackground('night');
+            if (weatherData && weatherData.timezoneOffset !== undefined) {
+                const utcHour = new Date().getUTCHours();
+                const localHour = (utcHour + weatherData.timezoneOffset / 3600) % 24;
+                if (localHour >= 6 && localHour < 12) {
+                    setNextBackgroundClass('morning');
+                } else if (localHour >= 12 && localHour < 18) {
+                    setNextBackgroundClass('afternoon');
+                } else if (localHour >= 18 && localHour < 20) {
+                    setNextBackgroundClass('evening');
+                } else {
+                    setNextBackgroundClass('night');
+                }
             }
         };
 
-        if (weatherData.timezoneOffset !== undefined) {
+        if (weatherData.timezoneOffset) {
             updateBackground();
         }
     }, [weatherData]);
+
+    useEffect(() => {
+        if (nextBackgroundClass) {
+            setOpacity(0);
+            const timeoutId = setTimeout(() => {
+                setBackgroundClass(nextBackgroundClass);
+                setOpacity(1);
+            }, 1500);
+
+            return () => clearTimeout(timeoutId);
+        }
+    }, [nextBackgroundClass]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -78,9 +134,7 @@ const Weather = () => {
                 setSuggestions([]);
             }
         };
-
         document.addEventListener('mousedown', handleClickOutside);
-        
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
@@ -96,16 +150,19 @@ const Weather = () => {
             const response = await fetch(url, {
                 method: 'GET',
                 headers: {
-                    'X-Api-Key': import.meta.env.VITE_API_NINJAS_KEY
-                }
+                    'X-Api-Key': import.meta.env.VITE_API_NINJAS_KEY,
+                },
             });
             const data = await response.json();
-            const filteredSuggestions = data.filter(city => city.name.toLowerCase().includes(query.toLowerCase()));
+            const filteredSuggestions = data
+                .filter(city => city.name.toLowerCase().includes(query.toLowerCase()))
+                .slice(0, 10); // Limit to 10 suggestions for better UX
             setSuggestions(filteredSuggestions);
         } catch (error) {
             console.error("Error fetching city suggestions:", error);
         }
     };
+
 
     const handleInputChange = (event) => {
         const value = event.target.value;
@@ -115,59 +172,33 @@ const Weather = () => {
             fetchCitySuggestions(value);
         }, 300);
     };
-    
 
-    const search = async (city) => {
-        if (city === "") {
-            alert("Enter City Name!");
-            return;
-        }
-        try {
-            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${import.meta.env.VITE_APP_ID}`;
-            const response = await fetch(url);
-            const data = await response.json();
-            const icon = allIcons[data.weather[0].icon] || day_clear_icon;
-            setWeatherData({
-                humidity: data.main.humidity,
-                windSpeed: data.wind.speed,
-                temperature: Math.round(data.main.temp),
-                location: data.name,
-                icon: icon,
-                timezoneOffset: data.timezone
-            });
-
-            const weatherMain = data.weather[0].main.toLowerCase();
-            setIsRaining(weatherMain === 'rain' || weatherMain === 'drizzle');
-            setIsCloudy(weatherMain === 'clouds');
-            setSuggestions([]);
-        } catch (error) {
-            console.error("Error fetching weather data:", error);
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            fetchWeatherData(query);
         }
     };
 
     const handleCitySelect = (city) => {
         setQuery(city.name);
-        search(city.name);
+        fetchWeatherData(city.name);
         setSuggestions([]);
-    };
-
-    const handleKeyDown = (event) => {
-        if (event.key === 'Enter') {
-            search(query);
-        }
     };
 
     const getCountryFlagUrl = (countryCode) => {
         return `https://flagcdn.com/w20/${countryCode.toLowerCase()}.png`;
     };
 
-    return (
-        <div className={`weather ${background}`} style={{ transition: 'background 2s ease-in-out' }}>
-            <div className={`clouds ${isCloudy ? 'visible' : 'hidden'}`}>
-                <Clouds />
-            </div>
-            {isRaining && <div className="rain">{createRaindrops()}</div>}
 
+
+    return (
+        <div className={`weather`}>
+            <div className={`default-background`} style={{ opacity: opacity === 1 ? 0 : 1 }} />
+            <div className={`weather-background ${backgroundClass}`} style={{ opacity: opacity }} />
+            <div className={`clouds ${isCloudy ? 'visible' : 'hidden'}`}>
+                <Clouds isCloudy={isCloudy} />
+            </div>
+            <Rain isRaining={isRaining} isHeartRain={isHeartRain} />
             <div className="search-container">
                 <div className="search-bar">
                     <input
@@ -178,7 +209,7 @@ const Weather = () => {
                         onChange={handleInputChange}
                         onKeyDown={handleKeyDown}
                     />
-                    <img src={search_icon} alt="Search icon" onClick={() => search(query)} />
+                    <img src={search_icon} alt="Search icon" onClick={() => fetchWeatherData(query)} />
                 </div>
                 {suggestions.length > 0 && (
                     <ul className="suggestions-dropdown" ref={dropdownRef}>
@@ -196,22 +227,24 @@ const Weather = () => {
                     </ul>
                 )}
             </div>
-
             {weatherData && weatherData.temperature && (
                 <>
                     <img className='weather-icon' src={weatherData.icon} alt="Weather Icon" />
                     <div className="temperature">{weatherData.temperature}°C</div>
                     <div className="location">{weatherData.location}</div>
-
                     <div className="weather-data">
-                        <div className="col">
-                            <img src={humidity_icon} alt="Humidity Icon" />
-                            <div>{weatherData.humidity}% <span>Humidity</span></div>
-                        </div>
-                        <div className="col">
-                            <img src={wind_icon} alt="Wind Icon" />
-                            <div>{weatherData.windSpeed} m/s <span>Wind Speed</span></div>
-                        </div>
+                        {weatherData.location !== 'I Love You!!!' && (
+                            <>
+                                <div className="col">
+                                    <img src={humidity_icon} alt="Humidity Icon" />
+                                    <div>{weatherData.humidity}% <span>Humidity</span></div>
+                                </div>
+                                <div className="col">
+                                    <img src={wind_icon} alt="Wind Icon" />
+                                    <div>{weatherData.windSpeed} m/s <span>Wind Speed</span></div>
+                                </div>
+                            </>
+                        )}
                     </div>
                 </>
             )}
@@ -220,3 +253,4 @@ const Weather = () => {
 };
 
 export default Weather;
+
