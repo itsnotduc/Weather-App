@@ -250,6 +250,7 @@ const Weather = () => {
             )}
         </div>
     );
+    
 };
 
 export default Weather;

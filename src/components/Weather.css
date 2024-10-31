@@ -1,22 +1,34 @@
 /* Main weather container */
+/* Main weather container */
 .weather {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    place-self: center;
-    padding: 60px;
-    border-radius: 40px;
-    width: 100%;
+    padding: 20px; /* Less padding for smaller screens */
+    border-radius: 20px; /* Adjust radius */
+    width: 90%;
     height: 100vh;
-    max-width: 90%;
-    max-height: 90%;
+    max-width: 600px; /* Limit the maximum width */
     position: relative;
     overflow: hidden;
 }
 
-.default-background,
-.weather-background {
+@media screen and (max-width: 600px) {
+    .search-bar input {
+        margin-top: 0; /* Adjust top margin */
+        width: calc(100% - 40px); /* Adjust width */
+    }
+    .search-bar img {
+        margin-top: 0; /* Adjust top margin */
+    }
+    .suggestions-dropdown {
+        max-height: 150px; /* Adjust height for smaller screens */
+    }
+}
+
+
+.default-background,.weather-background {
     position: absolute;
     top: 0;
     left: 0;
@@ -24,8 +36,17 @@
     height: 100%;
     background-size: 200% 200%;
     transition: opacity 1.5s ease-in-out;
-    /* Smooth opacity transition */
 }
+
+/* Search bar container */
+
+
+
+
+
+
+/* Other styles remain unchanged */
+
 
 /* Default gradient state */
 .default-background {
@@ -93,7 +114,8 @@
     z-index: 1000;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center; /* Changed to center */
+    width: 100%; /* Ensure it scales with the screen size */
 }
 
 .search-bar {
@@ -101,28 +123,32 @@
     align-items: center;
     gap: 12px;
     z-index: 1;
+    width: 100%;
 }
 
 .search-bar input {
-    height: 50px;
+    height: 40px; /* Shorter search bar height */
     border: none;
     outline: none;
-    border-radius: 40px;
-    padding-left: 25px;
+    border-radius: 30px; /* Smaller radius for a more compact look */
+    padding-left: 15px; /* Adjust padding */
     color: #626262;
     background: #ebfffc;
-    font-size: 18px;
-    margin-top: -170px;
+    font-size: 16px; /* Smaller font size */
+    margin-top: -150px;
+    width: calc(100% - 50px); /* Adjust width calculation */
+    box-sizing: border-box;
 }
 
 .search-bar img {
-    width: 40px;
-    padding: 15px;
+    width: 30px; /* Smaller icon */
+    padding: 10px; /* Adjust padding */
     border-radius: 50%;
     background: #ebfffc;
     cursor: pointer;
-    margin-top: -170px;
+    margin-top: -150px;
 }
+
 
 .weather-icon {
     width: 150px;
@@ -178,7 +204,7 @@
     overflow-y: auto;
     z-index: 1001;
     width: 100%;
-    top: calc(100% - 55px); /* Add spacing from the input */
+    top: calc(100% + 10px); /* Add spacing from the input */
 }
 
 .suggestions-dropdown li {
