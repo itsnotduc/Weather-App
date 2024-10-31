@@ -1,5 +1,4 @@
 /* Main weather container */
-/* Main weather container */
 .weather {
     display: flex;
     flex-direction: column;
@@ -7,87 +6,53 @@
     justify-content: center;
     padding: 20px; /* Less padding for smaller screens */
     border-radius: 20px; /* Adjust radius */
-    width: 90%;
-    height: 100vh;
-    max-width: 600px; /* Limit the maximum width */
+    width: 95%;
+    height: 95vh;
+    max-width: 2000px; /* Limit the maximum width */
     position: relative;
     overflow: hidden;
 }
 
-@media screen and (max-width: 600px) {
-    .search-bar input {
-        margin-top: 0; /* Adjust top margin */
-        width: calc(100% - 40px); /* Adjust width */
-    }
-    .search-bar img {
-        margin-top: 0; /* Adjust top margin */
-    }
-    .suggestions-dropdown {
-        max-height: 150px; /* Adjust height for smaller screens */
-    }
-}
 
 
-.default-background,.weather-background {
+.default-background, .weather-background {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-size: 200% 200%;
-    transition: opacity 1.5s ease-in-out;
+    transition: opacity 1.5s ease-in-out; /* Smooth opacity transition */
 }
 
-/* Search bar container */
-
-
-
-
-
-
-/* Other styles remain unchanged */
-
-
-/* Default gradient state */
 .default-background {
     background-image: linear-gradient(135deg, rgba(71, 71, 71, 0.8), rgba(0, 0, 0, 0.8));
     opacity: 1;
-    animation: gradient-move 20s ease infinite;
-    /* Ensure the animation applies to both backgrounds */
-    /* Initially visible */
+    animation: gradient-move 20s ease infinite; /* Ensure the animation applies to both backgrounds */
 }
 
 .weather-background {
-    opacity: 0;
-    /* Initially hidden */
+    opacity: 0; /* Initially hidden */
 }
 
-/* Morning state */
 .weather-background.morning {
     background-image: linear-gradient(135deg, rgba(255, 166, 1, 0.8), rgba(135, 42, 241, 0.8));
-    animation: gradient-move 20s ease infinite;
-    /* Ensure the animation applies to both backgrounds */
+    animation: gradient-move 20s ease infinite; /* Ensure the animation applies to both backgrounds */
 }
 
-/* Afternoon state */
 .weather-background.afternoon {
     background-image: linear-gradient(135deg, rgba(0, 67, 212, 0.8), rgba(64, 206, 224, 0.8));
-    animation: gradient-move 20s ease infinite;
-    /* Ensure the animation applies to both backgrounds */
+    animation: gradient-move 20s ease infinite; /* Ensure the animation applies to both backgrounds */
 }
 
-/* Evening state */
 .weather-background.evening {
     background-image: linear-gradient(135deg, rgba(252, 71, 0, 0.8), rgba(72, 148, 224, 0.8));
-    animation: gradient-move 20s ease infinite;
-    /* Ensure the animation applies to both backgrounds */
+    animation: gradient-move 20s ease infinite; /* Ensure the animation applies to both backgrounds */
 }
 
-/* Night state */
 .weather-background.night {
     background-image: linear-gradient(135deg, rgba(24, 24, 66, 0.8), rgba(0, 0, 0, 0.8));
-    animation: gradient-move 20s ease infinite;
-    /* Ensure the animation applies to both backgrounds */
+    animation: gradient-move 20s ease infinite; /* Ensure the animation applies to both backgrounds */
 }
 
 .weather-background.love {
@@ -96,17 +61,9 @@
 }
 
 @keyframes gradient-move {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .search-container {
@@ -114,7 +71,7 @@
     z-index: 1000;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Changed to center */
+    align-items: center; /* Center alignment */
     width: 100%; /* Ensure it scales with the screen size */
 }
 
@@ -123,11 +80,13 @@
     align-items: center;
     gap: 12px;
     z-index: 1;
-    width: 100%;
+    width: 80%; /* Adjusted width for a smaller search bar */
+    max-width: 400px; /* Add max-width for further control */
+    margin: auto; /* Center align */
 }
 
 .search-bar input {
-    height: 40px; /* Shorter search bar height */
+    height: 40px; /* Keep shorter search bar height */
     border: none;
     outline: none;
     border-radius: 30px; /* Smaller radius for a more compact look */
@@ -147,6 +106,22 @@
     background: #ebfffc;
     cursor: pointer;
     margin-top: -150px;
+}
+
+@media screen and (max-width: 600px) {
+    .search-bar {
+        width: 90%; /* Adjust width for smaller screens */
+    }
+    .search-bar input {
+        margin-top: 0; /* Adjust top margin */
+        width: calc(100% - 40px); /* Adjust width calculation for smaller screens */
+    }
+    .search-bar img {
+        margin-top: 0; /* Adjust top margin */
+    }
+    .suggestions-dropdown {
+        max-height: 150px; /* Adjust height for smaller screens */
+    }
 }
 
 
@@ -228,4 +203,3 @@
     object-fit: scale-down;
     display: inline-block;
 }
-
