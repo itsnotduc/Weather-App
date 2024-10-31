@@ -5,31 +5,69 @@
     right: 0;
     bottom: 0;
     overflow: hidden;
-    pointer-events: none; /* Prevent pointer events */
+    pointer-events: none;
 }
 
 .rain__drop {
     position: absolute;
-    width: 2px; /* Width of raindrop */
-    height: 20px; /* Height of raindrop */
-    background: rgba(255, 255, 255, 0.8); /* Color of raindrop */
-    animation-name: fall; /* Name of animation */
-    animation-timing-function: linear; /* Linear timing for continuous fall */
-    animation-iteration-count: infinite; /* Loop forever */
+    width: 2px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.8); 
+    animation-name: fall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
 }
 
 @keyframes fall {
     0% {
         transform: translateY(0);
-        opacity: 1; /* Fully visible at start */
+        opacity: 1;
     }
     100% {
-        transform: translateY(100vh); /* Fall off the screen */
-        opacity: 0; /* Fade out as it falls */
+        transform: translateY(100vh);
+        opacity: 0; 
     }
 }
 
-/* Apply the raindrop animation to the elements as needed */
 .raindrop {
-    animation: fall 0.5s linear infinite; /* Speeding up the fall animation */
+    animation: fall 0.5s linear infinite; 
+}
+.rain__drop.heart__drop {
+    width: 30px;
+    height: 30px;
+    background: url('../assets/heart.png') no-repeat center center;
+    background-size: contain;
+    animation-name: fall; 
+    animation-duration: 10s; 
+    animation-timing-function: linear; 
+    animation-iteration-count: infinite;
+}
+
+
+
+.heart__drop {
+    position: relative;
+    width: 30px;
+    height: 30px;
+}
+
+.heart__drop::before, .heart__drop::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 15px;
+    width: 15px;
+    height: 24px;
+    border-radius: 15px 15px 0 0;
+    background: rgba(255, 105, 180, 0.8);
+}
+
+.heart__drop::before {
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+}
+
+.heart__drop::after {
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
 }
