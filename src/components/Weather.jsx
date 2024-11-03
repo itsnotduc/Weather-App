@@ -17,7 +17,7 @@ import wind_icon from '../assets/wind.png';
 import placeholder_flag from '../assets/placeholder.png';
 import heartIcon from '../assets/heart.png';
 
-const Weather = () => {
+const Weather = ({ weatherData: initialWeatherData }) => {
     const allIcons = {
         "01d": day_clear_icon,
         "01n": night_clear_icon,
@@ -42,6 +42,7 @@ const Weather = () => {
         location: "Location not found",
         icon: day_clear_icon,
         timezoneOffset: 0,
+        timezone: "N/A", // Default to "N/A"
     });
 
     const [backgroundClass, setBackgroundClass] = useState('default-background');
@@ -54,7 +55,8 @@ const Weather = () => {
     const inputRef = useRef();
     const debounceTimeout = useRef(null);
     const dropdownRef = useRef();
-    const [isHeartRain, setIsHeartRain] = useState(false); // Initialize state
+    const [isHeartRain, setIsHeartRain] = useState(false);
+    const [timezone, setTimezone] = useState('N/A');
 
     const fetchWeatherData = async (city) => {
         if (!city) return;
@@ -65,7 +67,8 @@ const Weather = () => {
                 temperature: 1000000,
             });
             setIsRaining(true);
-            setIsHeartRain(true); // Set heart rain            setIsCloudy(false);
+            setIsHeartRain(true);
+            setIsCloudy(false);
             setNextBackgroundClass('love');
             setIsCloudy(true);
             return;
@@ -82,28 +85,41 @@ const Weather = () => {
                 location: data.name,
                 icon: icon,
                 timezoneOffset: data.timezone,
+                feelsLike: Math.floor(data.main.feels_like),
+                timezone: (new Date().getUTCHours() + data.timezone / 3600) % 24,
             });
             const weatherMain = data.weather[0].main.toLowerCase();
+            console.log(data);
             setIsRaining(weatherMain === 'rain' || weatherMain === 'drizzle');
-            setIsHeartRain(false); // Disable heart rain for regular rain
+            setIsHeartRain(false);
             setIsCloudy(weatherMain === 'clouds');
             setSuggestions([]);
+
+            const updateLocalTime = () => {
+                const utcTime = new Date();
+                const localTime = new Date(utcTime.getTime() + data.timezone * 1000);
+                localTime.setHours(localTime.getHours() - 2);
+                setTimezone(localTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+            };
+
+            updateLocalTime();
+            const intervalId = setInterval(updateLocalTime, 1000);
+
+            return () => clearInterval(intervalId);
         } catch (error) {
             console.error("Error fetching weather data:", error);
         }
     };
 
-
     useEffect(() => {
         const updateBackground = () => {
             if (weatherData && weatherData.timezoneOffset !== undefined) {
-                const utcHour = new Date().getUTCHours();
-                const localHour = (utcHour + weatherData.timezoneOffset / 3600) % 24;
+                const localHour = (new Date().getUTCHours() + weatherData.timezoneOffset / 3600) % 24;
                 if (localHour >= 6 && localHour < 12) {
                     setNextBackgroundClass('morning');
-                } else if (localHour >= 12 && localHour < 18) {
+                } else if (localHour >= 12 && localHour < 17) {
                     setNextBackgroundClass('afternoon');
-                } else if (localHour >= 18 && localHour < 20) {
+                } else if (localHour >= 17 && localHour < 20) {
                     setNextBackgroundClass('evening');
                 } else {
                     setNextBackgroundClass('night');
@@ -156,7 +172,7 @@ const Weather = () => {
             const data = await response.json();
             const filteredSuggestions = data
                 .filter(city => city.name.toLowerCase().includes(query.toLowerCase()))
-                .slice(0, 10); // Limit to 10 suggestions for better UX
+                .slice(0, 10);
             setSuggestions(filteredSuggestions);
         } catch (error) {
             console.error("Error fetching city suggestions:", error);
@@ -188,7 +204,6 @@ const Weather = () => {
     const getCountryFlagUrl = (countryCode) => {
         return `https://flagcdn.com/w20/${countryCode.toLowerCase()}.png`;
     };
-
 
 
     return (
@@ -231,7 +246,9 @@ const Weather = () => {
                 <>
                     <img className='weather-icon' src={weatherData.icon} alt="Weather Icon" />
                     <div className="temperature">{weatherData.temperature}°C</div>
+                    <div className='feels-like'>Feels like: {weatherData.feelsLike}°C</div>
                     <div className="location">{weatherData.location}</div>
+                    <div className='timezone'>{timezone}</div>
                     <div className="weather-data">
                         {weatherData.location !== 'I Love You!!!' && (
                             <>
@@ -255,4 +272,3 @@ const Weather = () => {
 };
 
 export default Weather;
-

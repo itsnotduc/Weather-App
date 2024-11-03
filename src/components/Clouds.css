@@ -15,7 +15,7 @@
     background: rgba(255, 255, 255, 0.8);
     border-radius: 50px;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-    animation: moveClouds 100s linear infinite;
+    animation: moveClouds 120s linear infinite; /* Longer duration for slow movement */
 }
 
 .cloud::before,
@@ -42,9 +42,9 @@
 
 @keyframes moveClouds {
     0% {
-        transform: translateX(-100vw);
+        transform: translateX(-105vw); /* Start from beyond the left edge */
     }
     100% {
-        transform: translateX(100vw);
+        transform: translateX(105vw); /* Move to beyond the right edge */
     }
 }

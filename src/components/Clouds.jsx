@@ -1,46 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './Clouds.css';
 
 const Clouds = ({ isCloudy }) => {
     const [clouds, setClouds] = useState([]);
+    const intervalRef = useRef(null); // Use ref to store interval
+    const cloudCount = 10; // Adjust the total number of clouds
 
     const createCloud = () => {
-        if (isCloudy) {
-            const newCloud = {
-                left: `${Math.random() * 100}vw`,
-                top: `${Math.random() * 20}vh`,
-                key: Date.now()
-            };
-            setClouds(prevClouds => [...prevClouds, newCloud]);
-        }
+        const newCloud = {
+            left: `${Math.random() * 100}vw`,
+            top: `${Math.random() * 20}vh`,
+            key: Date.now() + Math.random()
+        };
+        setClouds(prevClouds => [...prevClouds, newCloud]);
     };
 
     useEffect(() => {
         if (isCloudy) {
-            for (let i = 0; i < 5; i++) {  // Generate initial batch of clouds
-                createCloud();
+            setClouds([]); // Clear existing clouds
+            for (let i = 0; i < cloudCount; i++) {
+                createCloud(); // Create initial batch of clouds
             }
-            const interval = setInterval(() => {
-                createCloud();
-            }, 2000); // Generate a new cloud every 2 seconds
-            return () => clearInterval(interval);
+            intervalRef.current = setInterval(createCloud, 2000); // Generate a new cloud every 2 seconds
         } else {
-            const timeoutId = setTimeout(() => setClouds([]), 2000); // Clear clouds after fade-out transition
-            return () => clearTimeout(timeoutId);
+            clearInterval(intervalRef.current); // Clear interval when not cloudy
         }
+        return () => clearInterval(intervalRef.current); // Cleanup interval on unmount
     }, [isCloudy]);
 
     return (
-        <div 
-            className="clouds" 
-            style={{ 
-                position: 'absolute', 
-                top: 0, 
-                left: 0, 
-                right: 0, 
-                zIndex: 0,
-                opacity: isCloudy ? 1 : 0, // Adjust opacity based on isCloudy
-                transition: 'opacity 2s ease-in-out' // Smooth transition
+        <div
+            className="clouds"
+            style={{
+                position: 'absolute',
+                top: '10%', /* Adjusted top value */
+                left: 0,
+                right: 0,
+                pointerEvents: 'none',
+                justifyContent: 'space-around',
+                opacity: isCloudy ? 1 : 0,
+                transition: 'opacity 2s ease-in-out'
             }}>
             {clouds.map(cloud => (
                 <div
