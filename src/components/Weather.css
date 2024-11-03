@@ -23,7 +23,25 @@
     height: 100%;
     background-size: 200% 200%;
     transition: opacity 1.5s ease-in-out; /* Smooth opacity transition */
+    overflow: hidden; /* Ensure child elements stay within bounds */
 }
+
+.default-background::after, .weather-background::after {
+    content: "";
+    background-color: transparent;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.dev/svgjs' viewBox='0 0 700 700' width='700' height='700' opacity='1'%3E%3Cdefs%3E%3Cfilter id='nnnoise-filter' x='-20%25' y='-20%25' width='140%25' height='140%25' filterUnits='objectBoundingBox' primitiveUnits='userSpaceOnUse' color-interpolation-filters='linearRGB'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.2' numOctaves='4' seed='15' stitchTiles='stitch' x='0%25' y='0%25' width='100%25' height='100%25' result='turbulence'%3E%3C/feTurbulence%3E%3CfeSpecularLighting surfaceScale='6' specularConstant='1.1' specularExponent='20' lighting-color='%23afafaf' x='0%25' y='0%25' width='100%25' height='100%25' in='turbulence' result='specularLighting'%3E%3CfeDistantLight azimuth='3' elevation='94'%3E%3C/feDistantLight%3E%3C/feSpecularLighting%3E%3CfeColorMatrix type='saturate' values='0' x='0%25' y='0%25' width='100%25' height='100%25' in='specularLighting' result='colormatrix'%3E%3C/feColorMatrix%3E%3C/filter%3E%3C/defs%3E%3Crect width='700' height='700' fill='%23262626ff'%3E%3C/rect%3E%3Crect width='700' height='700' fill='%23afafaf' filter='url(%23nnnoise-filter)'%3E%3C/rect%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 182px;
+    opacity: 0.08;
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Ensure it doesn't interfere with interactions */
+}
+
+
 
 .default-background {
     background-image: linear-gradient(135deg, rgba(71, 71, 71, 0.8), rgba(0, 0, 0, 0.8));
@@ -56,7 +74,7 @@
 }
 
 .weather-background.love {
-    background-image: linear-gradient(135deg, rgba(247, 113, 133, 0.8), rgba(255, 105, 180, 0.8), rgba(253, 124, 73, 0.8));
+    background-image: linear-gradient(135deg, rgba(255, 0, 0, 0.8), rgba(255, 105, 180, 0.8), rgba(253, 124, 73, 0.8));
     animation: gradient-move 10s ease infinite;
 }
 
@@ -83,6 +101,7 @@
     width: 80%; /* Adjusted width for a smaller search bar */
     max-width: 400px; /* Add max-width for further control */
     margin: auto; /* Center align */
+    justify-content: center;
 }
 
 .search-bar input {
@@ -95,12 +114,12 @@
     background: #ebfffc;
     font-size: 16px; /* Smaller font size */
     margin-top: -150px;
-    width: calc(100% - 50px); /* Adjust width calculation */
+    width: calc(100% - 180px); /* Adjust width calculation */
     box-sizing: border-box;
 }
 
 .search-bar img {
-    width: 30px; /* Smaller icon */
+    width: 35px; /* Smaller icon */
     padding: 10px; /* Adjust padding */
     border-radius: 50%;
     background: #ebfffc;
@@ -141,12 +160,22 @@
 
 .location {
     color: #fff !important;
-    font-size: 40px;
+    font-size: 60px;
+    z-index: 2;
+    line-height: 1;
+}
+.feels-like{
+    color: #fff !important;
+    font-size: 16px;
     z-index: 2;
 }
-
+.timezone{
+    color: #fff !important;
+    font-size: 16px;
+    z-index: 2;
+}
 .weather-data {
-    width: 100%;
+    width: 90%;
     margin-top: 40px;
     color: #fff;
     display: flex;
@@ -178,8 +207,8 @@
     max-height: 200px;
     overflow-y: auto;
     z-index: 1001;
-    width: 100%;
-    top: calc(100% + 10px); /* Add spacing from the input */
+    width: 16%;
+    top: calc(100% - 50px); /* Add spacing from the input */
 }
 
 .suggestions-dropdown li {

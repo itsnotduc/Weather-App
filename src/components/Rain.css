@@ -33,8 +33,8 @@
     animation: fall 0.5s linear infinite; 
 }
 .rain__drop.heart__drop {
-    width: 30px;
-    height: 30px;
+    width: 15px;
+    height: 15px;
     background: url('../assets/heart.png') no-repeat center center;
     background-size: contain;
     animation-name: fall; 
@@ -45,29 +45,3 @@
 
 
 
-.heart__drop {
-    position: relative;
-    width: 30px;
-    height: 30px;
-}
-
-.heart__drop::before, .heart__drop::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 15px;
-    width: 15px;
-    height: 24px;
-    border-radius: 15px 15px 0 0;
-    background: rgba(255, 105, 180, 0.8);
-}
-
-.heart__drop::before {
-    transform: rotate(-45deg);
-    transform-origin: 0 100%;
-}
-
-.heart__drop::after {
-    transform: rotate(45deg);
-    transform-origin: 100% 100%;
-}
